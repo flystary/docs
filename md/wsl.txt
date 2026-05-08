@@ -1,0 +1,69 @@
+# 查看是否启用Hyper-V
+Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V
+
+# 启用Hyper-V 启用后需要重启 重启后再次查看是否启用
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All 
+
+# 安装WSl 
+wsl --install
+
+# 安装新的 Linux 分发版时将默认版本设置为 WSL 1 或 WSL 2
+wsl --set-default-version <1|2>
+
+# 设置wsl 的默认 Linux 分发版
+wsl --set-default <Distro>
+
+# 不更改默认分发的情况下从 PowerShell 中运行特定的 wsl 分发版
+wsl --distribution <DistroName>
+
+# 升级或安装wsl2
+wsl --update
+wsl -v 
+
+# 查看当前在线获取可用的 WSL2 Linux 发行版 
+wsl -l --Online
+
+# 安装ubuntu-20.04
+wsl --install -d Ubuntu-20.04 
+
+# 获取当前网络适配器
+Get-NetAdapter
+
+# 配置桥接网络
+New-VMSwitch -SwitchName "VETH" -NetAdapterName "以太网" -AllowManagementOS $True -EnablePacketDirect $True -EnableIov $True
+
+# 配置文件增加网络
+[wsl2]
+networkingMode=bridged
+vmSwitch=VETH
+ipv6=true
+
+# 设置wsl开机启动
+当前目录创建wsl_auto_start.vbs
+写入以下内容
+set ws=wscript.CreateObject("wscript.shell")
+ws.run "wsl -d Ubuntu-20.04 -u root", 0
+
+# 创建一个名为 "WSL_AutoStart" 的任务计划，在系统启动时触发，运行上面创建的 VBS 静默运行脚本 
+$action = New-ScheduledTaskAction -Execute "$env:C:\Users\65136\wsl_auto_start.vbs"
+$trigger = New-ScheduledTaskTrigger -AtStartup
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries
+$task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings
+Register-ScheduledTask WSL_AutoStart -InputObject $task 
+
+# wsl 关机
+wsl --shutdown
+
+# wsl 删除
+wsl --unregister Ubuntu-20.04
+
+# wsl 卸载
+wsl --uninstall
+
+# wsl 导出镜像 
+wsl --export Ubuntu-20.04 C:\Users\65136\Desktop\wsl.tar --version 2
+wsl --export Ubuntu-20.04 --vhd C:\Users\65136\Desktop\wsl.vhd --version 2
+
+# wsl 导入镜像
+wsl --import Ubuntu-20.04 C:\Users\65136\Desktop\wsl C:\Users\65136\Desktop\wsl.tar  --version 2 
+wsl --import Ubuntu-20.04 C:\Users\65136\Desktop\wsl  --vhd C:\Users\65136\Desktop\wsl.vhdx   --version 2
