@@ -2,8 +2,6 @@
 
    ![](./img/e75c54a1.svg)
 
-   
-
 2. 抛开路由协议的实现
    1. OS：ubuntu-server-20.4-LTS
    2. 内核模块
@@ -11,7 +9,7 @@
       modprobe mpls_router
       modprobe mpls_gso
       modprobe mpls_iptunnel
-      
+
       sysctl -w net.mpls.conf.lo.input=1
       sysctl -w net.mpls.platform_labels=1048575
       ```
@@ -53,12 +51,12 @@
          ip link set blue up
          ip route add vrf blue unreachable default metric 4278198272
          ip -6 route add vrf blue unreachable default metric 4278198272
-         
+
          ip link add blueveth0 type veth peer name blueveth1
-         ip link set blueveth0 vrf blue 
+         ip link set blueveth0 vrf blue
          ip link set blueveth0 up
          ip addr add 10.1.1.1/24 dev blueveth0
-         
+
          ip netns add nsblue
          ip link set blueveth1 netns nsblue
          ip netns exec nsblue ip addr add 10.1.1.2/24 dev blueveth1
@@ -72,12 +70,12 @@
          ip link set blue up
          ip route add vrf blue unreachable default metric 4278198272
          ip -6 route add vrf blue unreachable default metric 4278198272
-         
+
          ip link add blueveth0 type veth peer name blueveth1
-         ip link set blueveth0 vrf blue 
+         ip link set blueveth0 vrf blue
          ip link set blueveth0 up
          ip addr add 10.1.5.1/24 dev blueveth0
-         
+
          ip netns add nsblue
          ip link set blueveth1 netns nsblue
          ip netns exec nsblue ip addr add 10.1.5.2/24 dev blueveth1
@@ -89,7 +87,7 @@
       2. ```undefined
          ip -f mpls route add 1102 dev lo
          ip -f mpls route add 1202 as 1202 via inet 172.16.12.2
-         
+
          ip -f mpls route add 1201 dev lo
          ip -f mpls route add 1101 as 1101 via inet 172.16.11.1
          ```
@@ -99,7 +97,7 @@
       5. ```undefined
          ip -f mpls route add 1202 dev lo
          ip -f mpls route add 1301 as 1301 via inet 172.16.13.1
-         
+
          ip -f mpls route add 1302 dev lo
          ip -f mpls route add 1201 as 1201 via inet 172.16.12.1
          ```
@@ -107,7 +105,7 @@
       1. R1
       2. ```undefined
          ip route add 10.1.5.0/24 encap mpls 1102/1202/1301/100 via inet 172.16.11.2 vrf blue
-         
+
          ip -f mpls route add 1101 dev lo
          ip -f mpls route add 100 dev blue
          ```
@@ -115,7 +113,7 @@
       3. R5
       4. ```undefined
          ip route add 10.1.1.0/24 encap mpls 1302/1201/1101/100 via inet 172.16.13.2 vrf blue
-         
+
          ip -f mpls route add 1301 dev lo
          ip -f mpls route add 100 dev blue
          ```

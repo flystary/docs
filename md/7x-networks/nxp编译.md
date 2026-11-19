@@ -46,9 +46,8 @@ boot partition: The boot partition includes kernel image, DTB, distro boot scrip
 
 mkbootpartition命令会生成两个文件：
 
-​        bootpartition_LS_arm64_lts_5.4.tgz // boot分区的内容
-
-​        linux_4.19_LS_arm64.tgz                                //包含最新的boot分区内容以及最新的kernel modules
+    bootpartition_LS_arm64_lts_5.4.tgz // boot分区的内容
+    linux_4.19_LS_arm64.tgz                                //包含最新的boot分区内容以及最新的kernel modules
 
 自定义内核过程：
 

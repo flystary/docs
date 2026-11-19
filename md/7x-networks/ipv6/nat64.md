@@ -24,8 +24,8 @@
       apt install tayga
       ```
 2. 配置tayga
-   1. 配置/etc/tayga.conf，查看tayga配置：`grep '^\w' /etc/tayga.conf` 
-   2. ```Plain
+   1. 配置/etc/tayga.conf，查看tayga配置：`grep '^\w' /etc/tayga.conf`
+   2. ```txt
       tun-device nat64
       ipv4-addr 192.168.255.1
       ipv6-addr fdaa:bb:1::1
